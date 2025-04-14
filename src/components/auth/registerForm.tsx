@@ -87,22 +87,23 @@ export function RegisterForm() {
             </div>
           </div>
 
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full mt-5" disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Creating account...
+                Registrando...
               </>
             ) : (
-              "Create Account"
+              "Crear Cuenta"
             )}
           </Button>
+
+          {error && (
+            <Alert className="p-0 border-none bg-transparent shadow-none">
+              <AlertDescription className="text-sm text-red-500 p-0">{error}</AlertDescription>
+            </Alert>
+          )}
+
         </form>
       </CardContent>
 
@@ -110,7 +111,7 @@ export function RegisterForm() {
         <p className="text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link href="/login" className="text-primary hover:underline">
-            Sign in
+            Iniciar Sesión
           </Link>
         </p>
       </CardFooter>

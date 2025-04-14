@@ -1,49 +1,54 @@
 "use client"
 
-import { Sidebar } from "@/components/sidebar/sidebar"
-import { logoutUser } from "@/services/authActions"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 
-export default function Home() {
-  async function handleLogout() {
-    try {
-      await logoutUser()
-      window.location.href = "/login" 
-    } catch (error) {
-      console.error("Logout failed:", error)
-    }
+export default function HomePage() {
+  const [provider, setProvider] = useState<"firebase" | "supabase">("firebase")
+  const router = useRouter()
+
+  function handleSelect(newProvider: "firebase" | "supabase") {
+    setProvider(newProvider)
+  }
+
+  function handleContinue() {
+    localStorage.setItem("auth-provider", provider)
+    router.push("/login")
   }
 
   return (
-    <div className="flex h-screen bg-background text-foreground transition-colors duration-300">
-      <Sidebar />
+    <main className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-8 space-y-6">
+      <h1 className="text-2xl md:text-4xl font-bold text-center">Bienvenido to Auth Flex</h1>
+      <p className="text-sm md:text-lg text-muted-foreground text-center max-w-md">
+        Elige tu proveedor de autenticación
+      </p>
 
-      <main className="flex-1 p-8 ml-16 transition-all duration-300">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Dashboard</h1>
-          <Button variant="destructive" onClick={handleLogout}>
-            Logout
-          </Button>
+      <div className="flex flex-col space-y-2">
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="firebase"
+            checked={provider === "firebase"}
+            onCheckedChange={() => handleSelect("firebase")}
+          />
+          <Label htmlFor="firebase" className="text-md">Firebase</Label>
         </div>
 
-        <p className="text-muted-foreground">
-          Welcome to your dashboard. Toggle the sidebar using the button in the top left.
-        </p>
-
-        <div className="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="p-6 bg-card rounded-lg border border-border text-foreground transition-colors duration-300"
-            >
-              <h2 className="text-xl font-semibold">Card {i + 1}</h2>
-              <p className="mt-2 text-muted-foreground">
-                This is a sample card in the dashboard.
-              </p>
-            </div>
-          ))}
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="supabase"
+            checked={provider === "supabase"}
+            onCheckedChange={() => handleSelect("supabase")}
+          />
+          <Label htmlFor="supabase" className="text-md">Supabase</Label>
         </div>
-      </main>
-    </div>
+      </div>
+
+      <Button onClick={handleContinue} className="w-40 mt-4">
+        Iniciar
+      </Button>
+    </main>
   )
 }

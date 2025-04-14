@@ -17,11 +17,13 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useRouter } from "next/navigation"
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -33,6 +35,7 @@ export function LoginForm() {
       setIsLoading(true)
       setError(null)
       await loginUser(email, password)
+      router.push("/dashboard")
 
     } catch (err) {
       const error = err as Error
@@ -68,12 +71,12 @@ export function LoginForm() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              <Link
+              {/* <Link
                 href="/auth/forgot-password"
                 className="text-sm text-primary hover:underline"
               >
-                Forgot password?
-              </Link>
+                Olvido la contraseña?
+              </Link> */}
             </div>
 
             <div className="relative">
@@ -104,22 +107,23 @@ export function LoginForm() {
             </div>
           </div>
 
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full mt-5" disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Signing in...
+                Iniciando...
               </>
             ) : (
-              "Sign In"
+              "Iniciar Sesión"
             )}
           </Button>
+
+          {error && (
+            <Alert className="p-0 border-none bg-transparent shadow-none">
+              <AlertDescription className="text-sm text-red-500 p-0">{error}</AlertDescription>
+            </Alert>
+          )}
+
         </form>
       </CardContent>
 
@@ -127,7 +131,7 @@ export function LoginForm() {
         <p className="text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
           <Link href="/register" className="text-primary hover:underline">
-            Sign up
+            Registrarse
           </Link>
         </p>
       </CardFooter>
