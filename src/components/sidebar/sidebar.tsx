@@ -21,7 +21,7 @@ type SidebarProps = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export function Sidebar({ className, ...props }: SidebarProps) {
-  const [expanded, setExpanded] = React.useState(true)
+  const [expanded, setExpanded] = React.useState(false)
 
   const toggleSidebar = () => {
     setExpanded(!expanded)
