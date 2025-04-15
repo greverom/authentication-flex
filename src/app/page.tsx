@@ -5,8 +5,11 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
+import { useRedirectIfAuthenticated } from "@/hooks/useRedirectIffAuthenticated"
 
 export default function HomePage() {
+  useRedirectIfAuthenticated() 
+  
   const [provider, setProvider] = useState<"firebase" | "supabase">("firebase")
   const router = useRouter()
 
@@ -18,6 +21,8 @@ export default function HomePage() {
     localStorage.setItem("auth-provider", provider)
     router.push("/login")
   }
+
+  
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-8 space-y-6">

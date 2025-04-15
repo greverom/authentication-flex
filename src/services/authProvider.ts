@@ -2,6 +2,7 @@
 import { AuthProvider } from "@/interface/auth-provider"
 import { firebaseAuthService } from "./firebaseAuthService"
 import { supabaseAuthService } from "./supabaseAuthService"
+import { AppUser } from "@/interface/user"
 
 
 function getAuthProviderFromStorage(): "firebase" | "supabase" {
@@ -18,7 +19,7 @@ function getAuthProviderFromStorage(): "firebase" | "supabase" {
 
 const selectedProvider = getAuthProviderFromStorage()
 
-const authProvider: AuthProvider =
+const authProvider: AuthProvider<AppUser> =
   selectedProvider === "firebase"
     ? firebaseAuthService
     : supabaseAuthService

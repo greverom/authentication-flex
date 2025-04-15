@@ -13,3 +13,11 @@ export async function registerUser(email: string, password: string) {
 export async function logoutUser() {
   return authProvider.logout()
 }
+
+export async function getCurrentUser() {
+  if ("getCurrentUser" in authProvider && typeof authProvider.getCurrentUser === "function") {
+    return authProvider.getCurrentUser()
+  }
+
+  return null 
+}

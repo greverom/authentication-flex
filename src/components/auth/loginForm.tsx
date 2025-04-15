@@ -4,7 +4,6 @@ import { useState } from "react"
 import Link from "next/link"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { loginUser } from "@/services/authActions"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -18,25 +17,29 @@ import {
 } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useRouter } from "next/navigation"
+import { useAuthStore } from "@/store/useAuthStore"
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
+  const setUser = useAuthStore((state) => state.setUser)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const email = formData.get("email") as string
     const password = formData.get("password") as string
-
+  
     try {
       setIsLoading(true)
       setError(null)
-      await loginUser(email, password)
-      router.push("/dashboard")
-
+  
+      const user = await loginUser(email, password) 
+      setUser(user) 
+      router.replace("/dashboard")
+  
     } catch (err) {
       const error = err as Error
       setError(error.message || "Something went wrong")
