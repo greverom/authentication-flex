@@ -9,7 +9,7 @@ export function useRedirectIfAuthenticated() {
   useEffect(() => {
     const provider = localStorage.getItem("auth-provider")
     const supabaseToken = localStorage.getItem("sb-wxbbqgljawjbnjrioibz-auth-token")
-    const firebaseUser = localStorage.getItem("firebase:authUser")
+    const firebaseUser = localStorage.getItem("firebase-access-token")
 
     const isLoggedIn =
       (provider === "supabase" && !!supabaseToken) ||
