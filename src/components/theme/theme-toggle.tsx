@@ -22,7 +22,7 @@ export function ThemeToggle({ className, expanded = true }: ThemeToggleProps) {
     return null 
   }
 
-  const Icon = theme === "dark" ? Moon : Sun
+  const Icon = theme === "dark" ? Sun : Moon
   const label = theme === "dark" ? "Light mode" : "Dark mode"
 
   return (

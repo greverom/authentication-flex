@@ -1,7 +1,8 @@
-// src/services/authProvider.ts
+
+import { AuthProvider } from "@/interface/auth-provider"
 import { firebaseAuthService } from "./firebaseAuthService"
 import { supabaseAuthService } from "./supabaseAuthService"
-import type { AuthProvider } from "@/interface/auth-provider"
+
 
 function getAuthProviderFromStorage(): "firebase" | "supabase" {
   if (typeof window !== "undefined") {

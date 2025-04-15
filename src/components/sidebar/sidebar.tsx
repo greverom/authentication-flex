@@ -12,7 +12,6 @@ import {
   FileText,
   Settings,
   Bell,
-  LogIn,
 } from "lucide-react"
 import { ThemeToggle } from "../theme/theme-toggle"
 
@@ -33,7 +32,6 @@ export function Sidebar({ className, ...props }: SidebarProps) {
     { icon: Users, label: "Customers", href: "#" },
     { icon: FileText, label: "Documents", href: "#" },
     { icon: Bell, label: "Notifications", href: "#" },
-    { icon: LogIn, label: "Login", href: "/login" }
   ]
 
   return (

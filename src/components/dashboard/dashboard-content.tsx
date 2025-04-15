@@ -5,6 +5,7 @@ import { logoutUser } from "@/services/authActions"
 import { Button } from "@/components/ui/button"
 
 export function DashboardContent() {
+  
   async function handleLogout() {
     try {
       await logoutUser()
