@@ -2,36 +2,32 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  User,
 } from "firebase/auth"
 import { firebaseAuth } from "@/lib/firebase"
-import type { AppUser } from "@/interface/user" 
 
 export const firebaseAuthService = {
-  async login(email: string, password: string): Promise<AppUser> {
+  async login(email: string, password: string): Promise<User> {
     const userCredential = await signInWithEmailAndPassword(firebaseAuth, email, password)
     const user = userCredential.user
+    const token = await user.getIdToken()
+    localStorage.setItem("firebase-access-token", token)
 
-    return {
-      id: user.uid,
-      email: user.email ?? "unknown@example.com",
-      name: user.displayName ?? undefined,
-      provider: "firebase",
-    }
+    return user
   },
 
-  async register(email: string, password: string): Promise<AppUser> {
+  async register(email: string, password: string): Promise<User> {
     const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password)
     const user = userCredential.user
 
-    return {
-      id: user.uid,
-      email: user.email ?? "unknown@example.com",
-      name: user.displayName ?? undefined,
-      provider: "firebase",
-    }
+    localStorage.setItem("firebase-full-user", JSON.stringify(user))
+
+    return user
   },
 
   async logout(): Promise<void> {
+    localStorage.removeItem("firebase-access-token")
+    localStorage.removeItem("auth-store") 
     await signOut(firebaseAuth)
-  },
+  }
 }

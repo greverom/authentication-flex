@@ -1,21 +1,21 @@
 "use client"
 
-import { useSupabaseSession } from "@/hooks/useSupabaseSession"
+import { useSessionByProvider } from "@/hooks/useSessionByProvider"
 import { useAuthStore } from "@/store/useAuthStore"
-import { ReactNode, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { ReactNode, useEffect } from "react"
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const { user, isHydrated } = useAuthStore()
   const router = useRouter()
 
-  useSupabaseSession()
+  useSessionByProvider() 
 
   useEffect(() => {
     if (isHydrated && !user) {
       router.replace("/login")
     }
-  }, [user, router, isHydrated])
+  }, [isHydrated, user, router])
 
   if (!isHydrated) {
     return <div className="p-10 text-center">Verificando sesión...</div>
