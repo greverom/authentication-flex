@@ -1,7 +1,7 @@
 "use client"
 
 import { LoginForm } from "@/components/auth/loginForm"
-import { useRedirectIfAuthenticated } from "@/hooks/useRedirectIffAuthenticated"
+import { useRedirectIfAuthenticated } from "@/hooks/auth/guard/useRedirectIfAuthenticated"
 
 export default function LoginPage() {
   useRedirectIfAuthenticated()

@@ -1,6 +1,6 @@
 "use client"
 
-import { useSessionByProvider } from "@/hooks/useSessionByProvider"
+import { useSessionByProvider } from "@/hooks/auth/session/useSessionByProvider"
 import { useAuthStore } from "@/store/useAuthStore"
 import { useRouter } from "next/navigation"
 import { ReactNode, useEffect } from "react"

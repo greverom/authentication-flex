@@ -1,9 +1,12 @@
-
-import { AuthProvider } from "@/interface/auth-provider"
 import { firebaseAuthService } from "./firebaseAuthService"
 import { supabaseAuthService } from "./supabaseAuthService"
-import { AppUser } from "@/interface/user"
+import { AppUser } from "@/model/user"
 
+ interface AuthProvider<UserType = unknown> {
+  login: (email: string, password: string) => Promise<UserType>
+  register: (email: string, password: string) => Promise<UserType>
+  logout: () => Promise<void>
+} 
 
 function getAuthProviderFromStorage(): "firebase" | "supabase" {
   if (typeof window !== "undefined") {

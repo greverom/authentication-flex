@@ -1,7 +1,7 @@
 
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-import type { AppUser } from "@/interface/user"
+import type { AppUser } from "@/model/user"
 
 interface AuthState {
   user: AppUser | null

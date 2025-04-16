@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase"
-import type { AppUser } from "@/interface/user"
+import type { AppUser } from "@/model/user"
 
 export const supabaseAuthService = {
   async login(email: string, password: string): Promise<AppUser> {
@@ -12,6 +12,9 @@ export const supabaseAuthService = {
       email: user.email ?? "unknown@example.com",
       name: user.user_metadata?.display_name ?? undefined,
       provider: "supabase",
+      role: user.user_metadata?.role ?? "usuario",
+      emailVerified: user.user_metadata?.email_verified ?? false,
+      last_sign_in_at: user.last_sign_in_at,
     }
   },
 
