@@ -17,11 +17,16 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useRouter } from "next/navigation"
+import { useAuthStore } from "@/store/useAuthStore"
+import { toast } from "sonner"
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
+  const setUser = useAuthStore((state) => state.setUser)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -32,8 +37,11 @@ export function RegisterForm() {
     try {
       setIsLoading(true)
       setError(null)
-      await registerUser(email, password)
-
+    
+      const user = await registerUser(email, password)
+      setUser(user)
+      toast.success("Cuenta creada. Inicia sesión para continuar.")
+      router.push("/login")
     } catch (err) {
       const error = err as Error
       setError(error.message || "Something went wrong")
