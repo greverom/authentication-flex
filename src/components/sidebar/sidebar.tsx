@@ -37,7 +37,7 @@ export function Sidebar({ className, ...props }: SidebarProps) {
   return (
     <div
       className={cn(
-        "fixed top-0 left-0 z-40 flex flex-col h-screen bg-background border-r border-border transition-all duration-300 ease-in-out",
+        "fixed top-0 left-0 z-40 flex flex-col h-screen bg-background border-r border-border transition-all duration-300 ease-in-out dark:bg-gray-800",
         expanded ? "w-64" : "w-16",
         className
       )}

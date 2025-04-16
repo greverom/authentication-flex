@@ -8,19 +8,19 @@ import { AppUser } from "@/model/user"
   logout: () => Promise<void>
 } 
 
-function getAuthProviderFromStorage(): "firebase" | "supabase" {
+// utils/getAuthProvider.ts
+export function getAuthProvider(): "firebase" | "supabase" {
   if (typeof window !== "undefined") {
-    const stored = localStorage.getItem("auth-provider")
+    const stored = localStorage.getItem("auth-provider");
     if (stored === "firebase" || stored === "supabase") {
-      return stored
+      return stored;
     }
   }
-
-  const envProvider = process.env.NEXT_PUBLIC_AUTH_PROVIDER
-  return envProvider === "firebase" ? "firebase" : "supabase"
+  const envProvider = process.env.NEXT_PUBLIC_AUTH_PROVIDER;
+  return envProvider === "firebase" ? "firebase" : "supabase";
 }
 
-const selectedProvider = getAuthProviderFromStorage()
+const selectedProvider = getAuthProvider()
 
 const authProvider: AuthProvider<AppUser> =
   selectedProvider === "firebase"

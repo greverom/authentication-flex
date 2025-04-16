@@ -12,8 +12,6 @@ export function useFirebaseSession() {
 
     if (isHydrated && user) return
 
-    // console.log("useFirebaseSession montado")
-
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         setUser({
