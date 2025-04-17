@@ -15,11 +15,19 @@ interface DashboardContentProps {
 
 export function DashboardContent({ user }: DashboardContentProps) {
   const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER ?? "supabase"
+  const hasHydrated = useAuthStore((s) => s.hasHydrated)
   const storeUser = useAuthStore((s) => s.user)
   const currentUser = user || storeUser
 
-  if (!currentUser) {
+  if (!hasHydrated) {
     return <p className="text-muted-foreground">Cargando usuario...</p>
+  }
+  
+  if (!currentUser) {
+    if (typeof window !== "undefined") {
+      window.location.href = "/login"
+    }
+    return null
   }
   // useEffect(() => {
   //   console.log("Usuario autenticado:", user)

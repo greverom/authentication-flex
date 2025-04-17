@@ -2,8 +2,10 @@
 
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { useRedirectIfAuthenticated } from "@/hooks/guard/useRedirectIfAuthenticated"
 
 export default function HomePage() {
+  useRedirectIfAuthenticated()
   const router = useRouter()
 
   function handleContinue() {
