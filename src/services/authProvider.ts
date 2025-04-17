@@ -1,22 +1,13 @@
-
 import { AuthProvider } from "@/interface/auth-provider"
 import { firebaseAuthService } from "./firebaseAuthService"
 import { supabaseAuthService } from "./supabaseAuthService"
 
-
-function getAuthProviderFromStorage(): "firebase" | "supabase" {
-  if (typeof window !== "undefined") {
-    const stored = localStorage.getItem("auth-provider")
-    if (stored === "firebase" || stored === "supabase") {
-      return stored
-    }
-  }
-
+function getAuthProviderFromEnv(): "firebase" | "supabase" {
   const envProvider = process.env.NEXT_PUBLIC_AUTH_PROVIDER
   return envProvider === "firebase" ? "firebase" : "supabase"
 }
 
-const selectedProvider = getAuthProviderFromStorage()
+const selectedProvider = getAuthProviderFromEnv()
 
 const authProvider: AuthProvider =
   selectedProvider === "firebase"
