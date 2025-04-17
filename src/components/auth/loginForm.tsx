@@ -19,6 +19,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useAuthStore } from "@/store/useAuthStore"
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -26,22 +27,25 @@ export function LoginForm() {
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER ?? "supabase"
+  const setUser = useAuthStore((s) => s.setUser)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+  
     const formData = new FormData(e.currentTarget)
     const email = formData.get("email") as string
     const password = formData.get("password") as string
-
+  
     try {
       setIsLoading(true)
       setError(null)
-      await loginUser(email, password)
+      const user = await loginUser(email, password)
+      setUser(user)
+  
       router.push("/dashboard")
-      
     } catch (err) {
       const error = err as Error
-      setError(error.message || "Something went wrong")
+      setError(error.message || "Error al iniciar sesión")
     } finally {
       setIsLoading(false)
     }

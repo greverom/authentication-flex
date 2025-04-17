@@ -1,4 +1,6 @@
+import { useAuthStore } from "@/store/useAuthStore"
 import authProvider from "./authProvider"
+import { AppUser } from "@/interface/appUser"
 
 const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER
 
@@ -9,7 +11,7 @@ export async function loginUser(email: string, password: string) {
 
   const user = await authProvider.login(email, password)
   console.log("usuario autenticado:", user)
-  return user
+  return user as AppUser
 }
 
 export async function registerUser(email: string, password: string) {
@@ -25,5 +27,8 @@ export async function logoutUser() {
     throw new Error("Supabase logout is handled via server action. Use server logout() instead.")
   }
 
-  return authProvider.logout()
+  await authProvider.logout()
+
+  const setUser = useAuthStore.getState().setUser
+  setUser(null)
 }

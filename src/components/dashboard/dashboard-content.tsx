@@ -6,15 +6,21 @@ import { logout } from "@/server/auth/login/actions"
 import { Button } from "@/components/ui/button"
 import { AppUser } from "@/interface/appUser"
 import { UserInfoGrid } from "./userInfoGrid"
+import { useAuthStore } from "@/store/useAuthStore"
 
 
 interface DashboardContentProps {
-  user: AppUser
+  user?: AppUser
 }
 
 export function DashboardContent({ user }: DashboardContentProps) {
   const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER ?? "supabase"
-  
+  const storeUser = useAuthStore((s) => s.user)
+  const currentUser = user || storeUser
+
+  if (!currentUser) {
+    return <p className="text-muted-foreground">Cargando usuario...</p>
+  }
   // useEffect(() => {
   //   console.log("Usuario autenticado:", user)
   // }, [user])
@@ -50,11 +56,12 @@ export function DashboardContent({ user }: DashboardContentProps) {
         </div>
 
         <p className="text-muted-foreground mb-4">
-          Bienvenido <strong>{user.name ?? "Usuario"}</strong>
+          Bienvenido <strong>{currentUser.name ?? currentUser.email}</strong>
         </p>
 
-        <UserInfoGrid user={user} />
+        <UserInfoGrid user={currentUser} />
       </main>
     </div>
   )
+
 }

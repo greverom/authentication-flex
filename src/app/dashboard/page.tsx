@@ -1,14 +1,17 @@
-
+import { DashboardContent } from "@/components/dashboard/dashboard-content"
 import { getCurrentUser } from "@/server/auth/login/actions"
 import { mapSupabaseUserToAppUser } from "@/lib/auth/mapSupabaseUserToAppUser"
-import { DashboardContent } from "@/components/dashboard/dashboard-content"
+
+const provider = process.env.NEXT_PUBLIC_AUTH_PROVIDER
 
 export default async function DashboardPage() {
+  if (provider === "firebase") {
+    return <DashboardContent/>
+  }
+
   const user = await getCurrentUser()
 
-  if (!user) {
-    return null
-  }
+  if (!user) return null
 
   const appUser = mapSupabaseUserToAppUser(user)
 
